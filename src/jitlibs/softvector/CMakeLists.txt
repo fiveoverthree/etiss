@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(softvector_srcs
 	GIT_REPOSITORY https://github.com/danielschloms/softvector.git
 	# GIT_TAG master
-	GIT_TAG daniel-dev
+	GIT_TAG softvec2r
 )
 
 if(NOT softvector_srcs_POPULATED)
