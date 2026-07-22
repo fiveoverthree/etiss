@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <cstdint>
 
 #ifdef _WIN32
 #include <Windows.h>
