@@ -183,6 +183,10 @@ int main(int argc, const char *argv[])
         case etiss::RETURNCODE::INVALIDSYSTEM:
         return 3;
         break;
+        case etiss::RETURNCODE::CPUEXITEXTENDED:
+        std::cout << "EXITEXTENDED" << std::endl;
+        return cpu->getState()->exti_extended_return_code;
+        break;
         default:
         return -1;
         break;

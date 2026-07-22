@@ -52,6 +52,7 @@ std::string etiss::GetModulePath(etiss::ModuleHandle hModule)
 #else
 
 #include <dlfcn.h>
+#include <stdexcept>
 
 etiss::ModuleHandle etiss::GetModuleByName(const std::string &name)
 {

@@ -34,6 +34,7 @@
 #include "etiss/CPUCore.h"
 #include "etiss/ETISS.h"
 #include "etiss/CoreDSLCoverage.h"
+#include "etiss/jit/ReturnCode.h"
 
 using namespace etiss;
 
@@ -473,6 +474,7 @@ static void etiss_CPUCore_handleException(ETISS_CPU *cpu, etiss::int32 &code, Bl
     case RETURNCODE::GDBNOERROR:
         code = RETURNCODE::NOERROR;
         return;
+    case RETURNCODE::CPUEXITEXTENDED:
     case RETURNCODE::CPUFINISHED:
         return;
     default:
