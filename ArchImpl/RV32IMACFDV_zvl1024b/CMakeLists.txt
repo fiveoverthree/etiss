@@ -26,6 +26,7 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
 	RV32IMACFDV_zvl1024b_RV32AInstr.cpp
 	RV32IMACFDV_zvl1024b_tum_rvaInstr.cpp
 	RV32IMACFDV_zvl1024b_tum_semihostingInstr.cpp
+	RV32IMACFDV_zvl1024b_RVZvvi32mmInstr.cpp
 )
 
 add_custom_command(
