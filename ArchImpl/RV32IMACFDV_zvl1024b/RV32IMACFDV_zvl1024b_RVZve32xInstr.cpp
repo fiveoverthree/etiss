@@ -1,5 +1,6 @@
+// clang-format off
 /**
- * Generated on Thu, 07 Aug 2025 14:17:26 +0000.
+ * Generated on Wed, 05 Aug 2026 09:49:58 +0200.
  *
  * This file contains the instruction behavior models of the RVZve32x
  * instruction set for the RV32IMACFDV_zvl1024b core architecture.
@@ -11,599 +12,12 @@
 using namespace etiss;
 using namespace etiss::instr;
 
-
-// VSETVLI ---------------------------------------------------------------------
-static InstructionDefinition vsetvli_rd_rs1_zimm (
-	ISA32_RV32IMACFDV_zvl1024b,
-	"vsetvli",
-	(uint32_t) 0x007057,
-	(uint32_t) 0x8000707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 rd = 0;
-static BitArrayRange R_rd_0(11, 7);
-rd += R_rd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint16 zimm = 0;
-static BitArrayRange R_zimm_0(30, 20);
-zimm += R_zimm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSETVLI\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint8 sew = (vtype_extractSEW(" + std::to_string(zimm) + "ULL)) & 0x7;\n";
-cp.code() += "etiss_uint8 lmul = (vtype_extractLMUL(" + std::to_string(zimm) + "ULL)) & 0x7;\n";
-cp.code() += "etiss_uint8 vta = (vtype_extractTA(" + std::to_string(zimm) + "ULL)) & 0x1;\n";
-cp.code() += "etiss_uint8 vma = (vtype_extractMA(" + std::to_string(zimm) + "ULL)) & 0x1;\n";
-cp.code() += "etiss_uint32 vtype_result = " + std::to_string(zimm) + "ULL;\n";
-cp.code() += "etiss_uint32 _vlmax = 0LL;\n";
-cp.code() += "etiss_uint32 vlen = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "if (sew == 3ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "vtype_result = 2147483648ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "if (lmul & 4ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (lmul == 6ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) / 4ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 7ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) / 2ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "vtype_result = 2147483648ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (lmul == 0LL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew);\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) * 2ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 2ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) * 4ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 3ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) * 8ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "etiss_uint32 _avl = 0LL;\n";
-if (rs1 != 0LL) { // conditional
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_avl = *((RV32IMACFDV_zvl1024b*)cpu)->X[" + std::to_string(rs1) + "ULL];\n";
-cp.code() += "} // block\n";
-} // block
-} // conditional
- else if (rd != 0LL) { // conditional
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_avl = -1LL;\n";
-cp.code() += "} // block\n";
-} // block
-} // conditional
-else { // conditional
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_avl = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[3104ULL];\n";
-cp.code() += "} // block\n";
-} // block
-} // conditional
-cp.code() += "etiss_uint32 _vl = 0LL;\n";
-cp.code() += "if (_avl <= _vlmax) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _avl;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (_avl >= (2ULL * _vlmax)) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _vlmax;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _vlmax;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[3104ULL] = _vl;\n";
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[3105ULL] = vtype_result;\n";
-if (rd != 0LL) { // conditional
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->X[" + std::to_string(rd) + "ULL] = _vl;\n";
-} // conditional
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[8ULL] = 0LL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 rd = 0;
-static BitArrayRange R_rd_0(11, 7);
-rd += R_rd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint16 zimm = 0;
-static BitArrayRange R_zimm_0(30, 20);
-zimm += R_zimm_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsetvli" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | zimm=" + std::to_string(zimm) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSETIVLI --------------------------------------------------------------------
-static InstructionDefinition vsetivli_rd_uimm_vtypei (
-	ISA32_RV32IMACFDV_zvl1024b,
-	"vsetivli",
-	(uint32_t) 0xc0007057,
-	(uint32_t) 0xc000707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 rd = 0;
-static BitArrayRange R_rd_0(11, 7);
-rd += R_rd_0.read(ba) << 0;
-etiss_uint8 uimm = 0;
-static BitArrayRange R_uimm_0(19, 15);
-uimm += R_uimm_0.read(ba) << 0;
-etiss_uint16 vtypei = 0;
-static BitArrayRange R_vtypei_0(29, 20);
-vtypei += R_vtypei_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSETIVLI\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint8 sew = (vtype_extractSEW(" + std::to_string(vtypei) + "ULL)) & 0x7;\n";
-cp.code() += "etiss_uint8 lmul = (vtype_extractLMUL(" + std::to_string(vtypei) + "ULL)) & 0x7;\n";
-cp.code() += "etiss_uint8 vta = (vtype_extractTA(" + std::to_string(vtypei) + "ULL)) & 0x1;\n";
-cp.code() += "etiss_uint8 vma = (vtype_extractMA(" + std::to_string(vtypei) + "ULL)) & 0x1;\n";
-cp.code() += "etiss_uint32 _vlmax = 0LL;\n";
-cp.code() += "etiss_uint32 vtype_result = " + std::to_string(vtypei) + "ULL;\n";
-cp.code() += "etiss_uint32 vlen = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "if (sew == 3ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "vtype_result = 2147483648ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "if (lmul & 4ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (lmul == 6ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) / 4ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 7ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) / 2ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "vtype_result = 2147483648ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (lmul == 0LL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew);\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) * 2ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 2ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) * 4ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 3ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = vlen / (8ULL << sew) * 8ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-etiss_uint32 _avl = uimm;
-cp.code() += "etiss_uint32 _vl = 0LL;\n";
-cp.code() += "if (" + std::to_string(_avl) + "ULL <= _vlmax) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = " + std::to_string(_avl) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (" + std::to_string(_avl) + "ULL >= (2ULL * _vlmax)) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _vlmax;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _vlmax;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[3104ULL] = _vl;\n";
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[3105ULL] = vtype_result;\n";
-if (rd != 0LL) { // conditional
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->X[" + std::to_string(rd) + "ULL] = _vl;\n";
-} // conditional
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[8ULL] = 0LL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 rd = 0;
-static BitArrayRange R_rd_0(11, 7);
-rd += R_rd_0.read(ba) << 0;
-etiss_uint8 uimm = 0;
-static BitArrayRange R_uimm_0(19, 15);
-uimm += R_uimm_0.read(ba) << 0;
-etiss_uint16 vtypei = 0;
-static BitArrayRange R_vtypei_0(29, 20);
-vtypei += R_vtypei_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsetivli" << " # " << ba << (" [rd=" + std::to_string(rd) + " | uimm=" + std::to_string(uimm) + " | vtypei=" + std::to_string(vtypei) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
-// VSETVL ----------------------------------------------------------------------
-static InstructionDefinition vsetvl_rd_rs1_rs2 (
-	ISA32_RV32IMACFDV_zvl1024b,
-	"vsetvl",
-	(uint32_t) 0x80007057,
-	(uint32_t) 0xfe00707f,
-	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
-	{
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-etiss_uint8 rd = 0;
-static BitArrayRange R_rd_0(11, 7);
-rd += R_rd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 rs2 = 0;
-static BitArrayRange R_rs2_0(24, 20);
-rs2 += R_rs2_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-	{
-		CodePart & cp = cs.append(CodePart::INITIALREQUIRED);
-
-		cp.code() = std::string("//VSETVL\n");
-
-// -----------------------------------------------------------------------------
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
-cp.code() += "} // block\n";
-} // block
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "etiss_uint16 zimm = (*((RV32IMACFDV_zvl1024b*)cpu)->X[" + std::to_string(rs2) + "ULL]) & 0x7ff;\n";
-cp.code() += "etiss_uint8 sew = (vtype_extractSEW(zimm)) & 0x7;\n";
-cp.code() += "etiss_uint8 lmul = (vtype_extractLMUL(zimm)) & 0x7;\n";
-cp.code() += "etiss_uint8 vta = (vtype_extractTA(zimm)) & 0x1;\n";
-cp.code() += "etiss_uint8 vma = (vtype_extractMA(zimm)) & 0x1;\n";
-cp.code() += "etiss_uint32 _vlmax = 0LL;\n";
-cp.code() += "etiss_uint32 vtype_result = zimm;\n";
-cp.code() += "etiss_uint32 _vlen = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[3106ULL] * 8ULL;\n";
-cp.code() += "if (sew == 3ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "vtype_result = 2147483648ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "if (lmul & 4ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (lmul == 6ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew) / 4ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 7ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew) / 2ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "vtype_result = 2147483648ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "if (lmul == 0LL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew);\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 1ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew) * 2ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 2ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew) * 4ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (lmul == 3ULL) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vlmax = _vlen / (8ULL << sew) * 8ULL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "etiss_uint32 _avl = 0LL;\n";
-if (rs1 != 0LL) { // conditional
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_avl = *((RV32IMACFDV_zvl1024b*)cpu)->X[" + std::to_string(rs1) + "ULL];\n";
-cp.code() += "} // block\n";
-} // block
-} // conditional
- else if (rd != 0LL) { // conditional
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_avl = -1LL;\n";
-cp.code() += "} // block\n";
-} // block
-} // conditional
-else { // conditional
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_avl = *((RV32IMACFDV_zvl1024b*)cpu)->CSR[3104ULL];\n";
-cp.code() += "} // block\n";
-} // block
-} // conditional
-cp.code() += "etiss_uint32 _vl = 0LL;\n";
-cp.code() += "if (_avl <= _vlmax) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _avl;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += " else if (_avl >= (2ULL * _vlmax)) { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _vlmax;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "else { // conditional\n";
-{ // block
-cp.code() += "{ // block\n";
-cp.code() += "_vl = _vlmax;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "} // conditional\n";
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[3104ULL] = _vl;\n";
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[3105ULL] = vtype_result;\n";
-if (rd != 0LL) { // conditional
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->X[" + std::to_string(rd) + "ULL] = _vl;\n";
-} // conditional
-cp.code() += "*((RV32IMACFDV_zvl1024b*)cpu)->CSR[8ULL] = 0LL;\n";
-cp.code() += "} // block\n";
-} // block
-cp.code() += "instr_exit_" + std::to_string(ic.current_address_) + ":\n";
-cp.code() += "cpu->instructionPointer = cpu->nextPc;\n";
-// -----------------------------------------------------------------------------
-		cp.getAffectedRegisters().add("instructionPointer", 32);
-	}
-
-		return true;
-	},
-	0,
-	[] (BitArray & ba, Instruction & instr)
-	{
-// -----------------------------------------------------------------------------
-etiss_uint8 rd = 0;
-static BitArrayRange R_rd_0(11, 7);
-rd += R_rd_0.read(ba) << 0;
-etiss_uint8 rs1 = 0;
-static BitArrayRange R_rs1_0(19, 15);
-rs1 += R_rs1_0.read(ba) << 0;
-etiss_uint8 rs2 = 0;
-static BitArrayRange R_rs2_0(24, 20);
-rs2 += R_rs2_0.read(ba) << 0;
-
-// -----------------------------------------------------------------------------
-
-		std::stringstream ss;
-// -----------------------------------------------------------------------------
-ss << "vsetvl" << " # " << ba << (" [rd=" + std::to_string(rd) + " | rs1=" + std::to_string(rs1) + " | rs2=" + std::to_string(rs2) + "]");
-// -----------------------------------------------------------------------------
-		return ss.str();
-	}
-);
-
 // VLE8_V ----------------------------------------------------------------------
 static InstructionDefinition vle8_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vle8_v",
-	(uint32_t) 0x000007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x000007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -612,6 +26,7 @@ static InstructionDefinition vle8_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -622,6 +37,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -632,7 +48,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -710,8 +126,8 @@ ss << "vle8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std
 static InstructionDefinition vle16_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vle16_v",
-	(uint32_t) 0x005007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x005007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -720,6 +136,7 @@ static InstructionDefinition vle16_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -730,6 +147,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -740,7 +158,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -818,8 +236,8 @@ ss << "vle16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vle32_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vle32_v",
-	(uint32_t) 0x006007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x006007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -828,6 +246,7 @@ static InstructionDefinition vle32_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -838,6 +257,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -848,7 +268,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -926,8 +346,8 @@ ss << "vle32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vlse8_v_vd_rs1_rs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlse8_v",
-	(uint32_t) 0x8000007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8000007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -936,6 +356,7 @@ static InstructionDefinition vlse8_v_vd_rs1_rs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -949,6 +370,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -959,7 +381,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1040,8 +462,8 @@ ss << "vlse8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vlse16_v_vd_rs1_rs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlse16_v",
-	(uint32_t) 0x8005007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8005007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1050,6 +472,7 @@ static InstructionDefinition vlse16_v_vd_rs1_rs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1063,6 +486,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1073,7 +497,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1154,8 +578,8 @@ ss << "vlse16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vlse32_v_vd_rs1_rs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlse32_v",
-	(uint32_t) 0x8006007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8006007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1164,6 +588,7 @@ static InstructionDefinition vlse32_v_vd_rs1_rs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1177,6 +602,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1187,7 +613,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1268,8 +694,8 @@ ss << "vlse32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vlm_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlm_v",
-	(uint32_t) 0xb00007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0xb00007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1278,6 +704,7 @@ static InstructionDefinition vlm_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1288,6 +715,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1298,7 +726,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1374,8 +802,8 @@ ss << "vlm_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std:
 static InstructionDefinition vloxei8_v_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vloxei8_v",
-	(uint32_t) 0xc000007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc000007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1384,6 +812,7 @@ static InstructionDefinition vloxei8_v_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1397,6 +826,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1407,7 +837,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1488,8 +918,8 @@ ss << "vloxei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vloxei16_v_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vloxei16_v",
-	(uint32_t) 0xc005007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc005007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1498,6 +928,7 @@ static InstructionDefinition vloxei16_v_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1511,6 +942,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1521,7 +953,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1602,8 +1034,8 @@ ss << "vloxei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vloxei32_v_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vloxei32_v",
-	(uint32_t) 0xc006007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc006007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1612,6 +1044,7 @@ static InstructionDefinition vloxei32_v_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1625,6 +1058,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1635,7 +1069,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1716,8 +1150,8 @@ ss << "vloxei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vluxei8_v_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vluxei8_v",
-	(uint32_t) 0x4000007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4000007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1726,6 +1160,7 @@ static InstructionDefinition vluxei8_v_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1739,6 +1174,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1749,7 +1185,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1830,8 +1266,8 @@ ss << "vluxei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vluxei16_v_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vluxei16_v",
-	(uint32_t) 0x4005007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4005007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1840,6 +1276,7 @@ static InstructionDefinition vluxei16_v_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1853,6 +1290,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1863,7 +1301,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -1944,8 +1382,8 @@ ss << "vluxei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vluxei32_v_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vluxei32_v",
-	(uint32_t) 0x4006007,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4006007,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -1954,6 +1392,7 @@ static InstructionDefinition vluxei32_v_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -1967,6 +1406,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -1977,7 +1417,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2058,8 +1498,8 @@ ss << "vluxei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vsoxei8_v_vs3_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsoxei8_v",
-	(uint32_t) 0xc000027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc000027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2068,6 +1508,7 @@ static InstructionDefinition vsoxei8_v_vs3_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -2081,6 +1522,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2091,7 +1533,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2172,8 +1614,8 @@ ss << "vsoxei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" 
 static InstructionDefinition vsoxei16_v_vs3_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsoxei16_v",
-	(uint32_t) 0xc005027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc005027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2182,6 +1624,7 @@ static InstructionDefinition vsoxei16_v_vs3_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -2195,6 +1638,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2205,7 +1649,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2286,8 +1730,8 @@ ss << "vsoxei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vsoxei32_v_vs3_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsoxei32_v",
-	(uint32_t) 0xc006027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc006027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2296,6 +1740,7 @@ static InstructionDefinition vsoxei32_v_vs3_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -2309,6 +1754,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2319,7 +1765,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2400,8 +1846,8 @@ ss << "vsoxei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vsuxei8_v_vs3_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsuxei8_v",
-	(uint32_t) 0x4000027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4000027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2410,6 +1856,7 @@ static InstructionDefinition vsuxei8_v_vs3_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -2423,6 +1870,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2433,7 +1881,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2514,8 +1962,8 @@ ss << "vsuxei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" 
 static InstructionDefinition vsuxei16_v_vs3_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsuxei16_v",
-	(uint32_t) 0x4005027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4005027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2524,6 +1972,7 @@ static InstructionDefinition vsuxei16_v_vs3_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -2537,6 +1986,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2547,7 +1997,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2628,8 +2078,8 @@ ss << "vsuxei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vsuxei32_v_vs3_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsuxei32_v",
-	(uint32_t) 0x4006027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4006027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2638,6 +2088,7 @@ static InstructionDefinition vsuxei32_v_vs3_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -2651,6 +2102,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2661,7 +2113,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2742,8 +2194,8 @@ ss << "vsuxei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vle8ff_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vle8ff_v",
-	(uint32_t) 0x1000007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x1000007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2752,6 +2204,7 @@ static InstructionDefinition vle8ff_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -2762,6 +2215,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2772,7 +2226,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2850,8 +2304,8 @@ ss << "vle8ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vle16ff_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vle16ff_v",
-	(uint32_t) 0x1005007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x1005007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2860,6 +2314,7 @@ static InstructionDefinition vle16ff_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -2870,6 +2325,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2880,7 +2336,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -2958,8 +2414,8 @@ ss << "vle16ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vle32ff_v_vd_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vle32ff_v",
-	(uint32_t) 0x1006007,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x1006007,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -2968,6 +2424,7 @@ static InstructionDefinition vle32ff_v_vd_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -2978,6 +2435,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -2988,7 +2446,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3066,8 +2524,8 @@ ss << "vle32ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vlsege8_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlsege8_v",
-	(uint32_t) 0x000007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x000007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3076,6 +2534,7 @@ static InstructionDefinition vlsege8_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -3089,6 +2548,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3099,7 +2559,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3180,8 +2640,8 @@ ss << "vlsege8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vlsege16_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlsege16_v",
-	(uint32_t) 0x005007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x005007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3190,6 +2650,7 @@ static InstructionDefinition vlsege16_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -3203,6 +2664,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3213,7 +2675,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3294,8 +2756,8 @@ ss << "vlsege16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vlsege32_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlsege32_v",
-	(uint32_t) 0x006007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x006007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3304,6 +2766,7 @@ static InstructionDefinition vlsege32_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -3317,6 +2780,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3327,7 +2791,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3408,8 +2872,8 @@ ss << "vlsege32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vssege8_v_vs3_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssege8_v",
-	(uint32_t) 0x000027,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x000027,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3418,6 +2882,7 @@ static InstructionDefinition vssege8_v_vs3_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -3431,6 +2896,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3441,7 +2907,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3522,8 +2988,8 @@ ss << "vssege8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" 
 static InstructionDefinition vssege16_v_vs3_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssege16_v",
-	(uint32_t) 0x005027,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x005027,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3532,6 +2998,7 @@ static InstructionDefinition vssege16_v_vs3_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -3545,6 +3012,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3555,7 +3023,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3636,8 +3104,8 @@ ss << "vssege16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vssege32_v_vs3_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssege32_v",
-	(uint32_t) 0x006027,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x006027,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3646,6 +3114,7 @@ static InstructionDefinition vssege32_v_vs3_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -3659,6 +3128,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3669,7 +3139,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3750,8 +3220,8 @@ ss << "vssege32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vlsege8ff_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlsege8ff_v",
-	(uint32_t) 0x1000007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x1000007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3760,6 +3230,7 @@ static InstructionDefinition vlsege8ff_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -3773,6 +3244,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3783,7 +3255,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3864,8 +3336,8 @@ ss << "vlsege8ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vlsege16ff_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlsege16ff_v",
-	(uint32_t) 0x1005007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x1005007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3874,6 +3346,7 @@ static InstructionDefinition vlsege16ff_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -3887,6 +3360,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -3897,7 +3371,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -3978,8 +3452,8 @@ ss << "vlsege16ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1="
 static InstructionDefinition vlsege32ff_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlsege32ff_v",
-	(uint32_t) 0x1006007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x1006007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -3988,6 +3462,7 @@ static InstructionDefinition vlsege32ff_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -4001,6 +3476,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4011,7 +3487,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4092,8 +3568,8 @@ ss << "vlsege32ff_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1="
 static InstructionDefinition vlssege8_v_vd_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlssege8_v",
-	(uint32_t) 0x8000007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x8000007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4102,6 +3578,7 @@ static InstructionDefinition vlssege8_v_vd_rs1_rs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -4118,6 +3595,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4128,7 +3606,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4212,8 +3690,8 @@ ss << "vlssege8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vlssege16_v_vd_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlssege16_v",
-	(uint32_t) 0x8005007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x8005007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4222,6 +3700,7 @@ static InstructionDefinition vlssege16_v_vd_rs1_rs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -4238,6 +3717,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4248,7 +3728,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4332,8 +3812,8 @@ ss << "vlssege16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vlssege32_v_vd_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vlssege32_v",
-	(uint32_t) 0x8006007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x8006007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4342,6 +3822,7 @@ static InstructionDefinition vlssege32_v_vd_rs1_rs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -4358,6 +3839,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4368,7 +3850,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4452,8 +3934,8 @@ ss << "vlssege32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vsssege8_v_vs3_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsssege8_v",
-	(uint32_t) 0x8000027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x8000027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4462,6 +3944,7 @@ static InstructionDefinition vsssege8_v_vs3_rs1_rs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -4478,6 +3961,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4488,7 +3972,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4572,8 +4056,8 @@ ss << "vsssege8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1="
 static InstructionDefinition vsssege16_v_vs3_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsssege16_v",
-	(uint32_t) 0x8005027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x8005027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4582,6 +4066,7 @@ static InstructionDefinition vsssege16_v_vs3_rs1_rs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -4598,6 +4083,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4608,7 +4094,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4692,8 +4178,8 @@ ss << "vsssege16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=
 static InstructionDefinition vsssege32_v_vs3_rs1_rs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsssege32_v",
-	(uint32_t) 0x8006027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x8006027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4702,6 +4188,7 @@ static InstructionDefinition vsssege32_v_vs3_rs1_rs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -4718,6 +4205,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4728,7 +4216,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4812,8 +4300,8 @@ ss << "vsssege32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=
 static InstructionDefinition vluxsegei8_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vluxsegei8_v",
-	(uint32_t) 0x4000007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x4000007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4822,6 +4310,7 @@ static InstructionDefinition vluxsegei8_v_vd_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -4838,6 +4327,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4848,7 +4338,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -4932,8 +4422,8 @@ ss << "vluxsegei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1="
 static InstructionDefinition vluxsegei16_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vluxsegei16_v",
-	(uint32_t) 0x4005007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x4005007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -4942,6 +4432,7 @@ static InstructionDefinition vluxsegei16_v_vd_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -4958,6 +4449,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -4968,7 +4460,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5052,8 +4544,8 @@ ss << "vluxsegei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=
 static InstructionDefinition vluxsegei32_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vluxsegei32_v",
-	(uint32_t) 0x4006007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x4006007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5062,6 +4554,7 @@ static InstructionDefinition vluxsegei32_v_vd_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -5078,6 +4571,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5088,7 +4582,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5172,8 +4666,8 @@ ss << "vluxsegei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=
 static InstructionDefinition vloxsegei8_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vloxsegei8_v",
-	(uint32_t) 0xc000007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0xc000007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5182,6 +4676,7 @@ static InstructionDefinition vloxsegei8_v_vd_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -5198,6 +4693,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5208,7 +4704,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5292,8 +4788,8 @@ ss << "vloxsegei8_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1="
 static InstructionDefinition vloxsegei16_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vloxsegei16_v",
-	(uint32_t) 0xc005007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0xc005007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5302,6 +4798,7 @@ static InstructionDefinition vloxsegei16_v_vd_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -5318,6 +4815,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5328,7 +4826,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5412,8 +4910,8 @@ ss << "vloxsegei16_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=
 static InstructionDefinition vloxsegei32_v_vd_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vloxsegei32_v",
-	(uint32_t) 0xc006007,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0xc006007,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5422,6 +4920,7 @@ static InstructionDefinition vloxsegei32_v_vd_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -5438,6 +4937,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5448,7 +4948,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5532,8 +5032,8 @@ ss << "vloxsegei32_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=
 static InstructionDefinition vsuxsegei8_v_vs3_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsuxsegei8_v",
-	(uint32_t) 0x4000027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x4000027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5542,6 +5042,7 @@ static InstructionDefinition vsuxsegei8_v_vs3_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -5558,6 +5059,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5568,7 +5070,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5652,8 +5154,8 @@ ss << "vsuxsegei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1
 static InstructionDefinition vsuxsegei16_v_vs3_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsuxsegei16_v",
-	(uint32_t) 0x4005027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x4005027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5662,6 +5164,7 @@ static InstructionDefinition vsuxsegei16_v_vs3_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -5678,6 +5181,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5688,7 +5192,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5772,8 +5276,8 @@ ss << "vsuxsegei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs
 static InstructionDefinition vsuxsegei32_v_vs3_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsuxsegei32_v",
-	(uint32_t) 0x4006027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0x4006027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5782,6 +5286,7 @@ static InstructionDefinition vsuxsegei32_v_vs3_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -5798,6 +5303,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5808,7 +5314,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -5892,8 +5398,8 @@ ss << "vsuxsegei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs
 static InstructionDefinition vsoxsegei8_v_vs3_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsoxsegei8_v",
-	(uint32_t) 0xc000027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0xc000027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -5902,6 +5408,7 @@ static InstructionDefinition vsoxsegei8_v_vs3_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -5918,6 +5425,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -5928,7 +5436,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6012,8 +5520,8 @@ ss << "vsoxsegei8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1
 static InstructionDefinition vsoxsegei16_v_vs3_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsoxsegei16_v",
-	(uint32_t) 0xc005027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0xc005027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6022,6 +5530,7 @@ static InstructionDefinition vsoxsegei16_v_vs3_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -6038,6 +5547,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6048,7 +5558,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6132,8 +5642,8 @@ ss << "vsoxsegei16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs
 static InstructionDefinition vsoxsegei32_v_vs3_rs1_vs2_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsoxsegei32_v",
-	(uint32_t) 0xc006027,
-	(uint32_t) 0x1c00707f,
+	(uint64_t) 0xc006027,
+	(uint64_t) 0x1c00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6142,6 +5652,7 @@ static InstructionDefinition vsoxsegei32_v_vs3_rs1_vs2_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -6158,6 +5669,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6168,7 +5680,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6252,8 +5764,8 @@ ss << "vsoxsegei32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs
 static InstructionDefinition vl8r_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vl8r_v",
-	(uint32_t) 0x800007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x800007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6262,6 +5774,7 @@ static InstructionDefinition vl8r_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -6275,6 +5788,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6285,7 +5799,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6364,8 +5878,8 @@ ss << "vl8r_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std
 static InstructionDefinition vl16r_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vl16r_v",
-	(uint32_t) 0x805007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x805007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6374,6 +5888,7 @@ static InstructionDefinition vl16r_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -6387,6 +5902,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6397,7 +5913,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6476,8 +5992,8 @@ ss << "vl16r_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vl32r_v_vd_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vl32r_v",
-	(uint32_t) 0x806007,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x806007,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6486,6 +6002,7 @@ static InstructionDefinition vl32r_v_vd_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -6499,6 +6016,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6509,7 +6027,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6588,8 +6106,8 @@ ss << "vl32r_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vsr_v_vs3_rs1_vm_nf (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsr_v",
-	(uint32_t) 0x800027,
-	(uint32_t) 0x1df0707f,
+	(uint64_t) 0x800027,
+	(uint64_t) 0x1df0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6598,6 +6116,7 @@ static InstructionDefinition vsr_v_vs3_rs1_vm_nf (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -6611,6 +6130,7 @@ etiss_uint8 nf = 0;
 static BitArrayRange R_nf_0(31, 29);
 nf += R_nf_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6621,7 +6141,7 @@ nf += R_nf_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6700,8 +6220,8 @@ ss << "vsr_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + st
 static InstructionDefinition vse8_u_vs3_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vse8_u",
-	(uint32_t) 0x000027,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x000027,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6710,6 +6230,7 @@ static InstructionDefinition vse8_u_vs3_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -6720,6 +6241,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6730,7 +6252,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6808,8 +6330,8 @@ ss << "vse8_u" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + s
 static InstructionDefinition vse16_u_vs3_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vse16_u",
-	(uint32_t) 0x005027,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x005027,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6818,6 +6340,7 @@ static InstructionDefinition vse16_u_vs3_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -6828,6 +6351,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6838,7 +6362,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -6916,8 +6440,8 @@ ss << "vse16_u" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + 
 static InstructionDefinition vse32_u_vs3_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vse32_u",
-	(uint32_t) 0x006027,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0x006027,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -6926,6 +6450,7 @@ static InstructionDefinition vse32_u_vs3_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -6936,6 +6461,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -6946,7 +6472,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7024,8 +6550,8 @@ ss << "vse32_u" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + 
 static InstructionDefinition vsse8_v_vs3_rs1_rs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsse8_v",
-	(uint32_t) 0x8000027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8000027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7034,6 +6560,7 @@ static InstructionDefinition vsse8_v_vs3_rs1_rs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -7047,6 +6574,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7057,7 +6585,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7138,8 +6666,8 @@ ss << "vsse8_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + 
 static InstructionDefinition vsse16_v_vs3_rs1_rs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsse16_v",
-	(uint32_t) 0x8005027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8005027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7148,6 +6676,7 @@ static InstructionDefinition vsse16_v_vs3_rs1_rs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -7161,6 +6690,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7171,7 +6701,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7252,8 +6782,8 @@ ss << "vsse16_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" +
 static InstructionDefinition vsse32_v_vs3_rs1_rs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsse32_v",
-	(uint32_t) 0x8006027,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8006027,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7262,6 +6792,7 @@ static InstructionDefinition vsse32_v_vs3_rs1_rs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -7275,6 +6806,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7285,7 +6817,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7366,8 +6898,8 @@ ss << "vsse32_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" +
 static InstructionDefinition vsm_v_vs3_rs1_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsm_v",
-	(uint32_t) 0xb00027,
-	(uint32_t) 0xfdf0707f,
+	(uint64_t) 0xb00027,
+	(uint64_t) 0xfdf0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7376,6 +6908,7 @@ static InstructionDefinition vsm_v_vs3_rs1_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vs3 = 0;
 static BitArrayRange R_vs3_0(11, 7);
 vs3 += R_vs3_0.read(ba) << 0;
@@ -7386,6 +6919,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7396,7 +6930,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7472,8 +7006,8 @@ ss << "vsm_v" << " # " << ba << (" [vs3=" + std::to_string(vs3) + " | rs1=" + st
 static InstructionDefinition vadd_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vadd_vv",
-	(uint32_t) 0x000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7482,6 +7016,7 @@ static InstructionDefinition vadd_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -7495,6 +7030,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7505,7 +7041,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7585,8 +7121,8 @@ ss << "vadd_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vadd_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vadd_vx",
-	(uint32_t) 0x004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7595,6 +7131,7 @@ static InstructionDefinition vadd_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -7608,6 +7145,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7618,7 +7156,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7698,8 +7236,8 @@ ss << "vadd_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vadd_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vadd_vi",
-	(uint32_t) 0x003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7708,6 +7246,7 @@ static InstructionDefinition vadd_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -7721,6 +7260,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7731,7 +7271,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7811,8 +7351,8 @@ ss << "vadd_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" + 
 static InstructionDefinition vsub_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsub_vv",
-	(uint32_t) 0x8000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7821,6 +7361,7 @@ static InstructionDefinition vsub_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -7834,6 +7375,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7844,7 +7386,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -7924,8 +7466,8 @@ ss << "vsub_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vsub_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsub_vx",
-	(uint32_t) 0x8004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -7934,6 +7476,7 @@ static InstructionDefinition vsub_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -7947,6 +7490,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -7957,7 +7501,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8037,8 +7581,8 @@ ss << "vsub_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vrsub_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrsub_vx",
-	(uint32_t) 0xc004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8047,6 +7591,7 @@ static InstructionDefinition vrsub_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8060,6 +7605,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8070,7 +7616,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8150,8 +7696,8 @@ ss << "vrsub_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vrsub_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrsub_vi",
-	(uint32_t) 0xc003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8160,6 +7706,7 @@ static InstructionDefinition vrsub_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8173,6 +7720,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8183,7 +7731,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8263,8 +7811,8 @@ ss << "vrsub_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vwaddu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwaddu_vv",
-	(uint32_t) 0xc0002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc0002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8273,6 +7821,7 @@ static InstructionDefinition vwaddu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8286,6 +7835,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8296,7 +7846,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8376,8 +7926,8 @@ ss << "vwaddu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vwaddu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwaddu_vx",
-	(uint32_t) 0xc0006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc0006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8386,6 +7936,7 @@ static InstructionDefinition vwaddu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8399,6 +7950,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8409,7 +7961,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8489,8 +8041,8 @@ ss << "vwaddu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vwsubu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsubu_vv",
-	(uint32_t) 0xc8002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc8002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8499,6 +8051,7 @@ static InstructionDefinition vwsubu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8512,6 +8065,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8522,7 +8076,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8602,8 +8156,8 @@ ss << "vwsubu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vwsubu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsubu_vx",
-	(uint32_t) 0xc8006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc8006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8612,6 +8166,7 @@ static InstructionDefinition vwsubu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8625,6 +8180,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8635,7 +8191,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8715,8 +8271,8 @@ ss << "vwsubu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vwadd_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwadd_vv",
-	(uint32_t) 0xc4002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc4002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8725,6 +8281,7 @@ static InstructionDefinition vwadd_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8738,6 +8295,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8748,7 +8306,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8828,8 +8386,8 @@ ss << "vwadd_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vwadd_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwadd_vx",
-	(uint32_t) 0xc4006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc4006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8838,6 +8396,7 @@ static InstructionDefinition vwadd_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8851,6 +8410,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8861,7 +8421,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -8941,8 +8501,8 @@ ss << "vwadd_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vwsub_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsub_vv",
-	(uint32_t) 0xcc002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xcc002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -8951,6 +8511,7 @@ static InstructionDefinition vwsub_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -8964,6 +8525,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -8974,7 +8536,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9054,8 +8616,8 @@ ss << "vwsub_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vwsub_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsub_vx",
-	(uint32_t) 0xcc006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xcc006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9064,6 +8626,7 @@ static InstructionDefinition vwsub_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9077,6 +8640,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9087,7 +8651,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9167,8 +8731,8 @@ ss << "vwsub_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vwaddu_w_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwaddu_w_vv",
-	(uint32_t) 0xd0002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xd0002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9177,6 +8741,7 @@ static InstructionDefinition vwaddu_w_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9190,6 +8755,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9200,7 +8766,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9280,8 +8846,8 @@ ss << "vwaddu_w_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vwaddu_w_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwaddu_w_vx",
-	(uint32_t) 0xd0006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xd0006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9290,6 +8856,7 @@ static InstructionDefinition vwaddu_w_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9303,6 +8870,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9313,7 +8881,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9393,8 +8961,8 @@ ss << "vwaddu_w_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vwadd_w_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwadd_w_vv",
-	(uint32_t) 0xd4002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xd4002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9403,6 +8971,7 @@ static InstructionDefinition vwadd_w_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9416,6 +8985,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9426,7 +8996,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9506,8 +9076,8 @@ ss << "vwadd_w_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vwadd_w_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwadd_w_vx",
-	(uint32_t) 0xd4006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xd4006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9516,6 +9086,7 @@ static InstructionDefinition vwadd_w_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9529,6 +9100,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9539,7 +9111,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9619,8 +9191,8 @@ ss << "vwadd_w_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vwsubu_w_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsubu_w_vv",
-	(uint32_t) 0xd8002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xd8002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9629,6 +9201,7 @@ static InstructionDefinition vwsubu_w_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9642,6 +9215,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9652,7 +9226,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9732,8 +9306,8 @@ ss << "vwsubu_w_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vwsubu_w_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsubu_w_vx",
-	(uint32_t) 0xd8006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xd8006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9742,6 +9316,7 @@ static InstructionDefinition vwsubu_w_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9755,6 +9330,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9765,7 +9341,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9845,8 +9421,8 @@ ss << "vwsubu_w_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vwsub_w_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsub_w_vv",
-	(uint32_t) 0xdc002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xdc002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9855,6 +9431,7 @@ static InstructionDefinition vwsub_w_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9868,6 +9445,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9878,7 +9456,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -9958,8 +9536,8 @@ ss << "vwsub_w_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vwsub_w_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwsub_w_vx",
-	(uint32_t) 0xdc006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xdc006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -9968,6 +9546,7 @@ static InstructionDefinition vwsub_w_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -9981,6 +9560,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -9991,7 +9571,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10071,8 +9651,8 @@ ss << "vwsub_w_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vzext_vf2_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vzext_vf2",
-	(uint32_t) 0x48032057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x48032057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10081,6 +9661,7 @@ static InstructionDefinition vzext_vf2_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10091,6 +9672,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10101,7 +9683,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10178,8 +9760,8 @@ ss << "vzext_vf2" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + 
 static InstructionDefinition vsext_vf2_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsext_vf2",
-	(uint32_t) 0x4803a057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x4803a057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10188,6 +9770,7 @@ static InstructionDefinition vsext_vf2_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10198,6 +9781,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10208,7 +9792,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10285,8 +9869,8 @@ ss << "vsext_vf2" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + 
 static InstructionDefinition vzext_vf4_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vzext_vf4",
-	(uint32_t) 0x48022057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x48022057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10295,6 +9879,7 @@ static InstructionDefinition vzext_vf4_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10305,6 +9890,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10315,7 +9901,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10392,8 +9978,8 @@ ss << "vzext_vf4" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + 
 static InstructionDefinition vsext_vf4_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsext_vf4",
-	(uint32_t) 0x4802a057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x4802a057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10402,6 +9988,7 @@ static InstructionDefinition vsext_vf4_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10412,6 +9999,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10422,7 +10010,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10499,8 +10087,8 @@ ss << "vsext_vf4" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + 
 static InstructionDefinition vzext_vf8_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vzext_vf8",
-	(uint32_t) 0x48012057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x48012057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10509,6 +10097,7 @@ static InstructionDefinition vzext_vf8_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10519,6 +10108,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10529,7 +10119,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10606,8 +10196,8 @@ ss << "vzext_vf8" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + 
 static InstructionDefinition vsext_vf8_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsext_vf8",
-	(uint32_t) 0x4801a057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x4801a057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10616,6 +10206,7 @@ static InstructionDefinition vsext_vf8_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10626,6 +10217,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10636,7 +10228,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10713,8 +10305,8 @@ ss << "vsext_vf8" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + 
 static InstructionDefinition vadc_vvm_vd_vs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vadc_vvm",
-	(uint32_t) 0x40000057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x40000057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10723,6 +10315,7 @@ static InstructionDefinition vadc_vvm_vd_vs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10733,6 +10326,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10743,7 +10337,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10820,8 +10414,8 @@ ss << "vadc_vvm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vadc_vxm_vd_rs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vadc_vxm",
-	(uint32_t) 0x40004057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x40004057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10830,6 +10424,7 @@ static InstructionDefinition vadc_vxm_vd_rs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10840,6 +10435,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10850,7 +10446,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -10927,8 +10523,8 @@ ss << "vadc_vxm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vadc_vim_vd_simm5_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vadc_vim",
-	(uint32_t) 0x40003057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x40003057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -10937,6 +10533,7 @@ static InstructionDefinition vadc_vim_vd_simm5_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -10947,6 +10544,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -10957,7 +10555,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11034,8 +10632,8 @@ ss << "vadc_vim" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vmadc_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmadc_vv",
-	(uint32_t) 0x44000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x44000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11044,6 +10642,7 @@ static InstructionDefinition vmadc_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11057,6 +10656,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11067,7 +10667,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11147,8 +10747,8 @@ ss << "vmadc_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmadc_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmadc_vx",
-	(uint32_t) 0x44004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x44004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11157,6 +10757,7 @@ static InstructionDefinition vmadc_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11170,6 +10771,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11180,7 +10782,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11260,8 +10862,8 @@ ss << "vmadc_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmadc_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmadc_vi",
-	(uint32_t) 0x44003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x44003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11270,6 +10872,7 @@ static InstructionDefinition vmadc_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11283,6 +10886,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11293,7 +10897,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11373,8 +10977,8 @@ ss << "vmadc_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vsbc_vvm_vd_vs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsbc_vvm",
-	(uint32_t) 0x48000057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x48000057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11383,6 +10987,7 @@ static InstructionDefinition vsbc_vvm_vd_vs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11393,6 +10998,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11403,7 +11009,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11480,8 +11086,8 @@ ss << "vsbc_vvm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vsbc_vxm_vd_rs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsbc_vxm",
-	(uint32_t) 0x48004057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x48004057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11490,6 +11096,7 @@ static InstructionDefinition vsbc_vxm_vd_rs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11500,6 +11107,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11510,7 +11118,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11587,8 +11195,8 @@ ss << "vsbc_vxm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmsbc_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsbc_vv",
-	(uint32_t) 0x4c000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4c000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11597,6 +11205,7 @@ static InstructionDefinition vmsbc_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11610,6 +11219,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11620,7 +11230,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11700,8 +11310,8 @@ ss << "vmsbc_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmsbc_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsbc_vx",
-	(uint32_t) 0x4c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11710,6 +11320,7 @@ static InstructionDefinition vmsbc_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11723,6 +11334,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11733,7 +11345,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11813,8 +11425,8 @@ ss << "vmsbc_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vand_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vand_vv",
-	(uint32_t) 0x24000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x24000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11823,6 +11435,7 @@ static InstructionDefinition vand_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11836,6 +11449,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11846,7 +11460,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -11926,8 +11540,8 @@ ss << "vand_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vand_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vand_vi",
-	(uint32_t) 0x24003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x24003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -11936,6 +11550,7 @@ static InstructionDefinition vand_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -11949,6 +11564,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -11959,7 +11575,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12039,8 +11655,8 @@ ss << "vand_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" + 
 static InstructionDefinition vand_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vand_vx",
-	(uint32_t) 0x24004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x24004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12049,6 +11665,7 @@ static InstructionDefinition vand_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12062,6 +11679,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12072,7 +11690,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12152,8 +11770,8 @@ ss << "vand_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vor_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vor_vv",
-	(uint32_t) 0x28000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x28000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12162,6 +11780,7 @@ static InstructionDefinition vor_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12175,6 +11794,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12185,7 +11805,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12265,8 +11885,8 @@ ss << "vor_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + std
 static InstructionDefinition vor_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vor_vi",
-	(uint32_t) 0x28003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x28003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12275,6 +11895,7 @@ static InstructionDefinition vor_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12288,6 +11909,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12298,7 +11920,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12378,8 +12000,8 @@ ss << "vor_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" + s
 static InstructionDefinition vor_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vor_vx",
-	(uint32_t) 0x28004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x28004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12388,6 +12010,7 @@ static InstructionDefinition vor_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12401,6 +12024,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12411,7 +12035,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12491,8 +12115,8 @@ ss << "vor_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + std
 static InstructionDefinition vxor_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vxor_vv",
-	(uint32_t) 0x2c000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x2c000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12501,6 +12125,7 @@ static InstructionDefinition vxor_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12514,6 +12139,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12524,7 +12150,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12604,8 +12230,8 @@ ss << "vxor_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vxor_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vxor_vi",
-	(uint32_t) 0x2c003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x2c003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12614,6 +12240,7 @@ static InstructionDefinition vxor_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12627,6 +12254,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12637,7 +12265,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12717,8 +12345,8 @@ ss << "vxor_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" + 
 static InstructionDefinition vxor_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vxor_vx",
-	(uint32_t) 0x2c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x2c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12727,6 +12355,7 @@ static InstructionDefinition vxor_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12740,6 +12369,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12750,7 +12380,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12830,8 +12460,8 @@ ss << "vxor_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vsll_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsll_vv",
-	(uint32_t) 0x94000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x94000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12840,6 +12470,7 @@ static InstructionDefinition vsll_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12853,6 +12484,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12863,7 +12495,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -12943,8 +12575,8 @@ ss << "vsll_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vsll_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsll_vi",
-	(uint32_t) 0x94003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x94003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -12953,6 +12585,7 @@ static InstructionDefinition vsll_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -12966,6 +12599,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -12976,7 +12610,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13056,8 +12690,8 @@ ss << "vsll_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" + 
 static InstructionDefinition vsll_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsll_vx",
-	(uint32_t) 0x94004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x94004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13066,6 +12700,7 @@ static InstructionDefinition vsll_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13079,6 +12714,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13089,7 +12725,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13169,8 +12805,8 @@ ss << "vsll_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vsrl_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsrl_vv",
-	(uint32_t) 0xa0000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa0000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13179,6 +12815,7 @@ static InstructionDefinition vsrl_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13192,6 +12829,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13202,7 +12840,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13282,8 +12920,8 @@ ss << "vsrl_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vsrl_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsrl_vi",
-	(uint32_t) 0xa0003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa0003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13292,6 +12930,7 @@ static InstructionDefinition vsrl_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13305,6 +12944,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13315,7 +12955,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13395,8 +13035,8 @@ ss << "vsrl_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" + 
 static InstructionDefinition vsrl_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsrl_vx",
-	(uint32_t) 0xa0004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa0004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13405,6 +13045,7 @@ static InstructionDefinition vsrl_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13418,6 +13059,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13428,7 +13070,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13508,8 +13150,8 @@ ss << "vsrl_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vsra_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsra_vv",
-	(uint32_t) 0xa4000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa4000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13518,6 +13160,7 @@ static InstructionDefinition vsra_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13531,6 +13174,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13541,7 +13185,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13621,8 +13265,8 @@ ss << "vsra_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vsra_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsra_vi",
-	(uint32_t) 0xa4003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa4003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13631,6 +13275,7 @@ static InstructionDefinition vsra_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13644,6 +13289,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13654,7 +13300,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13734,8 +13380,8 @@ ss << "vsra_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" + 
 static InstructionDefinition vsra_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsra_vx",
-	(uint32_t) 0xa4004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa4004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13744,6 +13390,7 @@ static InstructionDefinition vsra_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13757,6 +13404,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13767,7 +13415,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13847,8 +13495,8 @@ ss << "vsra_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vnsrl_wv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnsrl_wv",
-	(uint32_t) 0xb0000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb0000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13857,6 +13505,7 @@ static InstructionDefinition vnsrl_wv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13870,6 +13519,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13880,7 +13530,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -13960,8 +13610,8 @@ ss << "vnsrl_wv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vnsrl_wi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnsrl_wi",
-	(uint32_t) 0xb0003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb0003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -13970,6 +13620,7 @@ static InstructionDefinition vnsrl_wi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -13983,6 +13634,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -13993,7 +13645,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14073,8 +13725,8 @@ ss << "vnsrl_wi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" +
 static InstructionDefinition vnsrl_wx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnsrl_wx",
-	(uint32_t) 0xb0004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb0004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14083,6 +13735,7 @@ static InstructionDefinition vnsrl_wx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14096,6 +13749,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14106,7 +13760,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14186,8 +13840,8 @@ ss << "vnsrl_wx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vnsra_wv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnsra_wv",
-	(uint32_t) 0xb4000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb4000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14196,6 +13850,7 @@ static InstructionDefinition vnsra_wv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14209,6 +13864,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14219,7 +13875,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14299,8 +13955,8 @@ ss << "vnsra_wv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vnsra_wi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnsra_wi",
-	(uint32_t) 0xb4003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb4003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14309,6 +13965,7 @@ static InstructionDefinition vnsra_wi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14322,6 +13979,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14332,7 +13990,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14412,8 +14070,8 @@ ss << "vnsra_wi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" +
 static InstructionDefinition vnsra_wx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnsra_wx",
-	(uint32_t) 0xb4004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb4004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14422,6 +14080,7 @@ static InstructionDefinition vnsra_wx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14435,6 +14094,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14445,7 +14105,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14525,8 +14185,8 @@ ss << "vnsra_wx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmseq_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmseq_vv",
-	(uint32_t) 0x60000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x60000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14535,6 +14195,7 @@ static InstructionDefinition vmseq_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14548,6 +14209,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14558,7 +14220,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14638,8 +14300,8 @@ ss << "vmseq_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmseq_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmseq_vx",
-	(uint32_t) 0x60004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x60004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14648,6 +14310,7 @@ static InstructionDefinition vmseq_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14661,6 +14324,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14671,7 +14335,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14751,8 +14415,8 @@ ss << "vmseq_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmseq_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmseq_vi",
-	(uint32_t) 0x60003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x60003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14761,6 +14425,7 @@ static InstructionDefinition vmseq_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14774,6 +14439,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14784,7 +14450,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14864,8 +14530,8 @@ ss << "vmseq_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vmsne_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsne_vv",
-	(uint32_t) 0x64000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x64000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14874,6 +14540,7 @@ static InstructionDefinition vmsne_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -14887,6 +14554,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -14897,7 +14565,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -14977,8 +14645,8 @@ ss << "vmsne_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmsne_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsne_vx",
-	(uint32_t) 0x64004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x64004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -14987,6 +14655,7 @@ static InstructionDefinition vmsne_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15000,6 +14669,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15010,7 +14680,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15090,8 +14760,8 @@ ss << "vmsne_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmsne_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsne_vi",
-	(uint32_t) 0x64003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x64003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15100,6 +14770,7 @@ static InstructionDefinition vmsne_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15113,6 +14784,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15123,7 +14795,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15203,8 +14875,8 @@ ss << "vmsne_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vmsltu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsltu_vv",
-	(uint32_t) 0x68000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x68000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15213,6 +14885,7 @@ static InstructionDefinition vmsltu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15226,6 +14899,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15236,7 +14910,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15316,8 +14990,8 @@ ss << "vmsltu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vmsltu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsltu_vx",
-	(uint32_t) 0x68004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x68004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15326,6 +15000,7 @@ static InstructionDefinition vmsltu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15339,6 +15014,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15349,7 +15025,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15429,8 +15105,8 @@ ss << "vmsltu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vmslt_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmslt_vv",
-	(uint32_t) 0x6c000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x6c000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15439,6 +15115,7 @@ static InstructionDefinition vmslt_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15452,6 +15129,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15462,7 +15140,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15542,8 +15220,8 @@ ss << "vmslt_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmslt_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmslt_vx",
-	(uint32_t) 0x6c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x6c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15552,6 +15230,7 @@ static InstructionDefinition vmslt_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15565,6 +15244,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15575,7 +15255,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15655,8 +15335,8 @@ ss << "vmslt_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmsleu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsleu_vv",
-	(uint32_t) 0x70000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x70000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15665,6 +15345,7 @@ static InstructionDefinition vmsleu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15678,6 +15359,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15688,7 +15370,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15768,8 +15450,8 @@ ss << "vmsleu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vmsleu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsleu_vx",
-	(uint32_t) 0x70004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x70004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15778,6 +15460,7 @@ static InstructionDefinition vmsleu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15791,6 +15474,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15801,7 +15485,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15881,8 +15565,8 @@ ss << "vmsleu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vmsleu_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsleu_vi",
-	(uint32_t) 0x70003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x70003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -15891,6 +15575,7 @@ static InstructionDefinition vmsleu_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -15904,6 +15589,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -15914,7 +15600,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -15994,8 +15680,8 @@ ss << "vmsleu_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" 
 static InstructionDefinition vmsle_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsle_vv",
-	(uint32_t) 0x74000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x74000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16004,6 +15690,7 @@ static InstructionDefinition vmsle_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16017,6 +15704,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16027,7 +15715,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16107,8 +15795,8 @@ ss << "vmsle_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmsle_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsle_vx",
-	(uint32_t) 0x74004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x74004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16117,6 +15805,7 @@ static InstructionDefinition vmsle_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16130,6 +15819,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16140,7 +15830,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16220,8 +15910,8 @@ ss << "vmsle_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmsle_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsle_vi",
-	(uint32_t) 0x74003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x74003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16230,6 +15920,7 @@ static InstructionDefinition vmsle_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16243,6 +15934,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16253,7 +15945,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16333,8 +16025,8 @@ ss << "vmsle_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vmsgtu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsgtu_vx",
-	(uint32_t) 0x78004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x78004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16343,6 +16035,7 @@ static InstructionDefinition vmsgtu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16356,6 +16049,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16366,7 +16060,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16446,8 +16140,8 @@ ss << "vmsgtu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vmsgtu_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsgtu_vi",
-	(uint32_t) 0x78003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x78003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16456,6 +16150,7 @@ static InstructionDefinition vmsgtu_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16469,6 +16164,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16479,7 +16175,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16559,8 +16255,8 @@ ss << "vmsgtu_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" 
 static InstructionDefinition vmsgt_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsgt_vx",
-	(uint32_t) 0x7c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x7c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16569,6 +16265,7 @@ static InstructionDefinition vmsgt_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16582,6 +16279,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16592,7 +16290,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16672,8 +16370,8 @@ ss << "vmsgt_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmsgt_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsgt_vi",
-	(uint32_t) 0x7c003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x7c003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16682,6 +16380,7 @@ static InstructionDefinition vmsgt_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16695,6 +16394,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16705,7 +16405,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16785,8 +16485,8 @@ ss << "vmsgt_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vmax_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmax_vv",
-	(uint32_t) 0x1c000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x1c000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16795,6 +16495,7 @@ static InstructionDefinition vmax_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16808,6 +16509,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16818,7 +16520,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -16898,8 +16600,8 @@ ss << "vmax_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vmax_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmax_vx",
-	(uint32_t) 0x1c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x1c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -16908,6 +16610,7 @@ static InstructionDefinition vmax_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -16921,6 +16624,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -16931,7 +16635,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17011,8 +16715,8 @@ ss << "vmax_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vmaxu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmaxu_vv",
-	(uint32_t) 0x18000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x18000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17021,6 +16725,7 @@ static InstructionDefinition vmaxu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17034,6 +16739,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17044,7 +16750,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17124,8 +16830,8 @@ ss << "vmaxu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmaxu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmaxu_vx",
-	(uint32_t) 0x18004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x18004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17134,6 +16840,7 @@ static InstructionDefinition vmaxu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17147,6 +16854,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17157,7 +16865,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17237,8 +16945,8 @@ ss << "vmaxu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmin_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmin_vv",
-	(uint32_t) 0x14000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x14000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17247,6 +16955,7 @@ static InstructionDefinition vmin_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17260,6 +16969,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17270,7 +16980,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17350,8 +17060,8 @@ ss << "vmin_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vmin_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmin_vx",
-	(uint32_t) 0x14004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x14004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17360,6 +17070,7 @@ static InstructionDefinition vmin_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17373,6 +17084,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17383,7 +17095,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17463,8 +17175,8 @@ ss << "vmin_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vminu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vminu_vv",
-	(uint32_t) 0x10000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x10000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17473,6 +17185,7 @@ static InstructionDefinition vminu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17486,6 +17199,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17496,7 +17210,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17576,8 +17290,8 @@ ss << "vminu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vminu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vminu_vx",
-	(uint32_t) 0x10004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x10004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17586,6 +17300,7 @@ static InstructionDefinition vminu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17599,6 +17314,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17609,7 +17325,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17689,8 +17405,8 @@ ss << "vminu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmul_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmul_vv",
-	(uint32_t) 0x94002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x94002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17699,6 +17415,7 @@ static InstructionDefinition vmul_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17712,6 +17429,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17722,7 +17440,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17802,8 +17520,8 @@ ss << "vmul_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vmul_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmul_vx",
-	(uint32_t) 0x94006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x94006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17812,6 +17530,7 @@ static InstructionDefinition vmul_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17825,6 +17544,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17835,7 +17555,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -17915,8 +17635,8 @@ ss << "vmul_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vmulh_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmulh_vv",
-	(uint32_t) 0x9c002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x9c002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -17925,6 +17645,7 @@ static InstructionDefinition vmulh_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -17938,6 +17659,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -17948,7 +17670,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18028,8 +17750,8 @@ ss << "vmulh_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmulh_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmulh_vx",
-	(uint32_t) 0x9c006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x9c006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18038,6 +17760,7 @@ static InstructionDefinition vmulh_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18051,6 +17774,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18061,7 +17785,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18141,8 +17865,8 @@ ss << "vmulh_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vmulhu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmulhu_vv",
-	(uint32_t) 0x90002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x90002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18151,6 +17875,7 @@ static InstructionDefinition vmulhu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18164,6 +17889,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18174,7 +17900,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18254,8 +17980,8 @@ ss << "vmulhu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vmulhu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmulhu_vx",
-	(uint32_t) 0x90006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x90006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18264,6 +17990,7 @@ static InstructionDefinition vmulhu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18277,6 +18004,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18287,7 +18015,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18367,8 +18095,8 @@ ss << "vmulhu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vmulhsu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmulhsu_vv",
-	(uint32_t) 0x98002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x98002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18377,6 +18105,7 @@ static InstructionDefinition vmulhsu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18390,6 +18119,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18400,7 +18130,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18480,8 +18210,8 @@ ss << "vmulhsu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vmulhsu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmulhsu_vx",
-	(uint32_t) 0x98006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x98006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18490,6 +18220,7 @@ static InstructionDefinition vmulhsu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18503,6 +18234,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18513,7 +18245,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18593,8 +18325,8 @@ ss << "vmulhsu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vdiv_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vdiv_vv",
-	(uint32_t) 0x84002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x84002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18603,6 +18335,7 @@ static InstructionDefinition vdiv_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18616,6 +18349,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18626,7 +18360,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18706,8 +18440,8 @@ ss << "vdiv_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vdiv_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vdiv_vx",
-	(uint32_t) 0x84006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x84006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18716,6 +18450,7 @@ static InstructionDefinition vdiv_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18729,6 +18464,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18739,7 +18475,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18819,8 +18555,8 @@ ss << "vdiv_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vdivu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vdivu_vv",
-	(uint32_t) 0x80002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x80002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18829,6 +18565,7 @@ static InstructionDefinition vdivu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18842,6 +18579,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18852,7 +18590,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -18932,8 +18670,8 @@ ss << "vdivu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vdivu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vdivu_vx",
-	(uint32_t) 0x80006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x80006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -18942,6 +18680,7 @@ static InstructionDefinition vdivu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -18955,6 +18694,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -18965,7 +18705,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19045,8 +18785,8 @@ ss << "vdivu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vrem_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrem_vv",
-	(uint32_t) 0x8c002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8c002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19055,6 +18795,7 @@ static InstructionDefinition vrem_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19068,6 +18809,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19078,7 +18820,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19158,8 +18900,8 @@ ss << "vrem_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vrem_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrem_vx",
-	(uint32_t) 0x8c006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8c006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19168,6 +18910,7 @@ static InstructionDefinition vrem_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19181,6 +18924,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19191,7 +18935,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19271,8 +19015,8 @@ ss << "vrem_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vremu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vremu_vv",
-	(uint32_t) 0x88002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x88002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19281,6 +19025,7 @@ static InstructionDefinition vremu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19294,6 +19039,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19304,7 +19050,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19384,8 +19130,8 @@ ss << "vremu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vremu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vremu_vx",
-	(uint32_t) 0x88006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x88006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19394,6 +19140,7 @@ static InstructionDefinition vremu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19407,6 +19154,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19417,7 +19165,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19497,8 +19245,8 @@ ss << "vremu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vwmul_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmul_vv",
-	(uint32_t) 0xec002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xec002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19507,6 +19255,7 @@ static InstructionDefinition vwmul_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19520,6 +19269,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19530,7 +19280,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19610,8 +19360,8 @@ ss << "vwmul_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vwmul_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmul_vx",
-	(uint32_t) 0xec006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xec006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19620,6 +19370,7 @@ static InstructionDefinition vwmul_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19633,6 +19384,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19643,7 +19395,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19723,8 +19475,8 @@ ss << "vwmul_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vwmulu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmulu_vv",
-	(uint32_t) 0xe0002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xe0002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19733,6 +19485,7 @@ static InstructionDefinition vwmulu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19746,6 +19499,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19756,7 +19510,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19836,8 +19590,8 @@ ss << "vwmulu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vwmulu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmulu_vx",
-	(uint32_t) 0xe0006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xe0006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19846,6 +19600,7 @@ static InstructionDefinition vwmulu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19859,6 +19614,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19869,7 +19625,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -19949,8 +19705,8 @@ ss << "vwmulu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vwmulsu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmulsu_vv",
-	(uint32_t) 0xe8002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xe8002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -19959,6 +19715,7 @@ static InstructionDefinition vwmulsu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -19972,6 +19729,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -19982,7 +19740,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20062,8 +19820,8 @@ ss << "vwmulsu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vwmulsu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmulsu_vx",
-	(uint32_t) 0xe8006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xe8006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20072,6 +19830,7 @@ static InstructionDefinition vwmulsu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20085,6 +19844,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20095,7 +19855,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20175,8 +19935,8 @@ ss << "vwmulsu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vmacc_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmacc_vv",
-	(uint32_t) 0xb4002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb4002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20185,6 +19945,7 @@ static InstructionDefinition vmacc_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20198,6 +19959,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20208,7 +19970,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20288,8 +20050,8 @@ ss << "vmacc_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmacc_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmacc_vx",
-	(uint32_t) 0xb4006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb4006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20298,6 +20060,7 @@ static InstructionDefinition vmacc_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20311,6 +20074,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20321,7 +20085,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20401,8 +20165,8 @@ ss << "vmacc_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vnmsac_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnmsac_vv",
-	(uint32_t) 0xbc002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xbc002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20411,6 +20175,7 @@ static InstructionDefinition vnmsac_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20424,6 +20189,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20434,7 +20200,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20514,8 +20280,8 @@ ss << "vnmsac_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vnmsac_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnmsac_vx",
-	(uint32_t) 0xbc006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xbc006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20524,6 +20290,7 @@ static InstructionDefinition vnmsac_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20537,6 +20304,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20547,7 +20315,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20627,8 +20395,8 @@ ss << "vnmsac_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vmadd_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmadd_vv",
-	(uint32_t) 0xa4002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa4002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20637,6 +20405,7 @@ static InstructionDefinition vmadd_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20650,6 +20419,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20660,7 +20430,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20740,8 +20510,8 @@ ss << "vmadd_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmadd_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmadd_vx",
-	(uint32_t) 0xa4006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa4006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20750,6 +20520,7 @@ static InstructionDefinition vmadd_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20763,6 +20534,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20773,7 +20545,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20853,8 +20625,8 @@ ss << "vmadd_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vnmsub_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnmsub_vv",
-	(uint32_t) 0xac002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xac002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20863,6 +20635,7 @@ static InstructionDefinition vnmsub_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20876,6 +20649,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20886,7 +20660,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -20966,8 +20740,8 @@ ss << "vnmsub_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vnmsub_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnmsub_vx",
-	(uint32_t) 0xac006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xac006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -20976,6 +20750,7 @@ static InstructionDefinition vnmsub_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -20989,6 +20764,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -20999,7 +20775,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21079,8 +20855,8 @@ ss << "vnmsub_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vwmaccu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmaccu_vv",
-	(uint32_t) 0xf0002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xf0002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21089,6 +20865,7 @@ static InstructionDefinition vwmaccu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21102,6 +20879,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21112,7 +20890,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21192,8 +20970,8 @@ ss << "vwmaccu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vwmaccu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmaccu_vx",
-	(uint32_t) 0xf0006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xf0006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21202,6 +20980,7 @@ static InstructionDefinition vwmaccu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21215,6 +20994,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21225,7 +21005,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21305,8 +21085,8 @@ ss << "vwmaccu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vwmacc_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmacc_vv",
-	(uint32_t) 0xf4002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xf4002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21315,6 +21095,7 @@ static InstructionDefinition vwmacc_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21328,6 +21109,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21338,7 +21120,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21418,8 +21200,8 @@ ss << "vwmacc_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vwmacc_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmacc_vx",
-	(uint32_t) 0xf4006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xf4006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21428,6 +21210,7 @@ static InstructionDefinition vwmacc_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21441,6 +21224,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21451,7 +21235,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21531,8 +21315,8 @@ ss << "vwmacc_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vwmaccsu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmaccsu_vv",
-	(uint32_t) 0xfc002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xfc002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21541,6 +21325,7 @@ static InstructionDefinition vwmaccsu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21554,6 +21339,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21564,7 +21350,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21644,8 +21430,8 @@ ss << "vwmaccsu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vwmaccsu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmaccsu_vx",
-	(uint32_t) 0xfc006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xfc006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21654,6 +21440,7 @@ static InstructionDefinition vwmaccsu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21667,6 +21454,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21677,7 +21465,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21757,8 +21545,8 @@ ss << "vwmaccsu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vwmaccus_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwmaccus_vx",
-	(uint32_t) 0xf8006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xf8006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21767,6 +21555,7 @@ static InstructionDefinition vwmaccus_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21780,6 +21569,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21790,7 +21580,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21870,8 +21660,8 @@ ss << "vwmaccus_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vmerge_vvm_vd_vs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmerge_vvm",
-	(uint32_t) 0x5c000057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x5c000057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21880,6 +21670,7 @@ static InstructionDefinition vmerge_vvm_vd_vs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21890,6 +21681,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -21900,7 +21692,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -21977,8 +21769,8 @@ ss << "vmerge_vvm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vmerge_vxm_vd_rs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmerge_vxm",
-	(uint32_t) 0x5c004057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x5c004057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -21987,6 +21779,7 @@ static InstructionDefinition vmerge_vxm_vd_rs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -21997,6 +21790,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22007,7 +21801,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22084,8 +21878,8 @@ ss << "vmerge_vxm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vmerge_vim_vd_simm5_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmerge_vim",
-	(uint32_t) 0x5c003057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x5c003057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22094,6 +21888,7 @@ static InstructionDefinition vmerge_vim_vd_simm5_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22104,6 +21899,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22114,7 +21910,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22191,8 +21987,8 @@ ss << "vmerge_vim" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5="
 static InstructionDefinition vmv_v_v_vd_vs1 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmv_v_v",
-	(uint32_t) 0x5e000057,
-	(uint32_t) 0xfff0707f,
+	(uint64_t) 0x5e000057,
+	(uint64_t) 0xfff0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22201,6 +21997,7 @@ static InstructionDefinition vmv_v_v_vd_vs1 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22208,6 +22005,7 @@ etiss_uint8 vs1 = 0;
 static BitArrayRange R_vs1_0(19, 15);
 vs1 += R_vs1_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22218,7 +22016,7 @@ vs1 += R_vs1_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22292,8 +22090,8 @@ ss << "vmv_v_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vmv_v_x_vd_rs1 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmv_v_x",
-	(uint32_t) 0x5e004057,
-	(uint32_t) 0xfff0707f,
+	(uint64_t) 0x5e004057,
+	(uint64_t) 0xfff0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22302,6 +22100,7 @@ static InstructionDefinition vmv_v_x_vd_rs1 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22309,6 +22108,7 @@ etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22319,7 +22119,7 @@ rs1 += R_rs1_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22393,8 +22193,8 @@ ss << "vmv_v_x" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vmv_v_i_vd_simm5 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmv_v_i",
-	(uint32_t) 0x5e003057,
-	(uint32_t) 0xfff0707f,
+	(uint64_t) 0x5e003057,
+	(uint64_t) 0xfff0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22403,6 +22203,7 @@ static InstructionDefinition vmv_v_i_vd_simm5 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22410,6 +22211,7 @@ etiss_uint8 simm5 = 0;
 static BitArrayRange R_simm5_0(19, 15);
 simm5 += R_simm5_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22420,7 +22222,7 @@ simm5 += R_simm5_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22494,8 +22296,8 @@ ss << "vmv_v_i" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" + 
 static InstructionDefinition vsaddu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsaddu_vv",
-	(uint32_t) 0x80000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x80000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22504,6 +22306,7 @@ static InstructionDefinition vsaddu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22517,6 +22320,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22527,7 +22331,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22615,8 +22419,8 @@ ss << "vsaddu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vsaddu_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsaddu_vi",
-	(uint32_t) 0x80003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x80003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22625,6 +22429,7 @@ static InstructionDefinition vsaddu_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22638,6 +22443,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22648,7 +22454,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22736,8 +22542,8 @@ ss << "vsaddu_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" 
 static InstructionDefinition vsaddu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsaddu_vx",
-	(uint32_t) 0x80004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x80004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22746,6 +22552,7 @@ static InstructionDefinition vsaddu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22759,6 +22566,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22769,7 +22577,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22857,8 +22665,8 @@ ss << "vsaddu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vsadd_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsadd_vv",
-	(uint32_t) 0x84000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x84000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22867,6 +22675,7 @@ static InstructionDefinition vsadd_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -22880,6 +22689,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -22890,7 +22700,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -22978,8 +22788,8 @@ ss << "vsadd_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vsadd_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsadd_vi",
-	(uint32_t) 0x84003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x84003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -22988,6 +22798,7 @@ static InstructionDefinition vsadd_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23001,6 +22812,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23011,7 +22823,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23099,8 +22911,8 @@ ss << "vsadd_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" +
 static InstructionDefinition vsadd_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsadd_vx",
-	(uint32_t) 0x84004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x84004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23109,6 +22921,7 @@ static InstructionDefinition vsadd_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23122,6 +22935,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23132,7 +22946,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23220,8 +23034,8 @@ ss << "vsadd_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vssubu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssubu_vv",
-	(uint32_t) 0x88000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x88000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23230,6 +23044,7 @@ static InstructionDefinition vssubu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23243,6 +23058,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23253,7 +23069,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23341,8 +23157,8 @@ ss << "vssubu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vssubu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssubu_vx",
-	(uint32_t) 0x88004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x88004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23351,6 +23167,7 @@ static InstructionDefinition vssubu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23364,6 +23181,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23374,7 +23192,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23462,8 +23280,8 @@ ss << "vssubu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vssub_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssub_vv",
-	(uint32_t) 0x8c000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8c000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23472,6 +23290,7 @@ static InstructionDefinition vssub_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23485,6 +23304,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23495,7 +23315,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23583,8 +23403,8 @@ ss << "vssub_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vssub_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssub_vx",
-	(uint32_t) 0x8c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23593,6 +23413,7 @@ static InstructionDefinition vssub_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23606,6 +23427,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23616,7 +23438,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23704,8 +23526,8 @@ ss << "vssub_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vaaddu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vaaddu_vv",
-	(uint32_t) 0x20002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x20002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23714,6 +23536,7 @@ static InstructionDefinition vaaddu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23727,6 +23550,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23737,7 +23561,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23818,8 +23642,8 @@ ss << "vaaddu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vaaddu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vaaddu_vx",
-	(uint32_t) 0x20006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x20006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23828,6 +23652,7 @@ static InstructionDefinition vaaddu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23841,6 +23666,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23851,7 +23677,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -23932,8 +23758,8 @@ ss << "vaaddu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vaadd_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vaadd_vv",
-	(uint32_t) 0x24002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x24002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -23942,6 +23768,7 @@ static InstructionDefinition vaadd_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -23955,6 +23782,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -23965,7 +23793,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24046,8 +23874,8 @@ ss << "vaadd_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vaadd_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vaadd_vx",
-	(uint32_t) 0x24006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x24006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24056,6 +23884,7 @@ static InstructionDefinition vaadd_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24069,6 +23898,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24079,7 +23909,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24160,8 +23990,8 @@ ss << "vaadd_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vasubu_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vasubu_vv",
-	(uint32_t) 0x28002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x28002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24170,6 +24000,7 @@ static InstructionDefinition vasubu_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24183,6 +24014,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24193,7 +24025,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24274,8 +24106,8 @@ ss << "vasubu_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vasubu_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vasubu_vx",
-	(uint32_t) 0x28006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x28006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24284,6 +24116,7 @@ static InstructionDefinition vasubu_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24297,6 +24130,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24307,7 +24141,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24388,8 +24222,8 @@ ss << "vasubu_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vasub_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vasub_vv",
-	(uint32_t) 0x2c002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x2c002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24398,6 +24232,7 @@ static InstructionDefinition vasub_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24411,6 +24246,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24421,7 +24257,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24502,8 +24338,8 @@ ss << "vasub_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vasub_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vasub_vx",
-	(uint32_t) 0x2c006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x2c006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24512,6 +24348,7 @@ static InstructionDefinition vasub_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24525,6 +24362,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24535,7 +24373,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24616,8 +24454,8 @@ ss << "vasub_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vsmul_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsmul_vv",
-	(uint32_t) 0x9c000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x9c000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24626,6 +24464,7 @@ static InstructionDefinition vsmul_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24639,6 +24478,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24649,7 +24489,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24738,8 +24578,8 @@ ss << "vsmul_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vsmul_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vsmul_vx",
-	(uint32_t) 0x9c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x9c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24748,6 +24588,7 @@ static InstructionDefinition vsmul_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24761,6 +24602,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24771,7 +24613,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24860,8 +24702,8 @@ ss << "vsmul_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vssrl_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssrl_vv",
-	(uint32_t) 0xa8000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa8000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24870,6 +24712,7 @@ static InstructionDefinition vssrl_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -24883,6 +24726,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -24893,7 +24737,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -24982,8 +24826,8 @@ ss << "vssrl_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vssrl_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssrl_vi",
-	(uint32_t) 0xa8003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa8003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -24992,6 +24836,7 @@ static InstructionDefinition vssrl_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25005,6 +24850,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25015,7 +24861,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25104,8 +24950,8 @@ ss << "vssrl_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" +
 static InstructionDefinition vssrl_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssrl_vx",
-	(uint32_t) 0xa8004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xa8004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25114,6 +24960,7 @@ static InstructionDefinition vssrl_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25127,6 +24974,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25137,7 +24985,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25226,8 +25074,8 @@ ss << "vssrl_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vssra_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssra_vv",
-	(uint32_t) 0xac000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xac000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25236,6 +25084,7 @@ static InstructionDefinition vssra_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25249,6 +25098,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25259,7 +25109,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25348,8 +25198,8 @@ ss << "vssra_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vssra_vi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssra_vi",
-	(uint32_t) 0xac003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xac003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25358,6 +25208,7 @@ static InstructionDefinition vssra_vi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25371,6 +25222,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25381,7 +25233,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25470,8 +25322,8 @@ ss << "vssra_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" +
 static InstructionDefinition vssra_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vssra_vx",
-	(uint32_t) 0xac004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xac004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25480,6 +25332,7 @@ static InstructionDefinition vssra_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25493,6 +25346,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25503,7 +25357,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25592,8 +25446,8 @@ ss << "vssra_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + s
 static InstructionDefinition vnclipu_wv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnclipu_wv",
-	(uint32_t) 0xb8000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb8000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25602,6 +25456,7 @@ static InstructionDefinition vnclipu_wv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25615,6 +25470,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25625,7 +25481,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25714,8 +25570,8 @@ ss << "vnclipu_wv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vnclipu_wi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnclipu_wi",
-	(uint32_t) 0xb8003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb8003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25724,6 +25580,7 @@ static InstructionDefinition vnclipu_wi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25737,6 +25594,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25747,7 +25605,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25836,8 +25694,8 @@ ss << "vnclipu_wi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5="
 static InstructionDefinition vnclipu_wx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnclipu_wx",
-	(uint32_t) 0xb8004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xb8004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25846,6 +25704,7 @@ static InstructionDefinition vnclipu_wx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25859,6 +25718,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25869,7 +25729,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -25958,8 +25818,8 @@ ss << "vnclipu_wx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" +
 static InstructionDefinition vnclip_wv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnclip_wv",
-	(uint32_t) 0xbc000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xbc000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -25968,6 +25828,7 @@ static InstructionDefinition vnclip_wv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -25981,6 +25842,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -25991,7 +25853,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26080,8 +25942,8 @@ ss << "vnclip_wv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vnclip_wi_vd_uimm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnclip_wi",
-	(uint32_t) 0xbc003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xbc003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26090,6 +25952,7 @@ static InstructionDefinition vnclip_wi_vd_uimm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26103,6 +25966,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26113,7 +25977,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26202,8 +26066,8 @@ ss << "vnclip_wi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | uimm5=" 
 static InstructionDefinition vnclip_wx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vnclip_wx",
-	(uint32_t) 0xbc004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xbc004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26212,6 +26076,7 @@ static InstructionDefinition vnclip_wx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26225,6 +26090,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26235,7 +26101,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26324,8 +26190,8 @@ ss << "vnclip_wx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + 
 static InstructionDefinition vredsum_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredsum_vs",
-	(uint32_t) 0x002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26334,6 +26200,7 @@ static InstructionDefinition vredsum_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26347,6 +26214,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26357,7 +26225,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26437,8 +26305,8 @@ ss << "vredsum_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vredmaxu_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredmaxu_vs",
-	(uint32_t) 0x18002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x18002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26447,6 +26315,7 @@ static InstructionDefinition vredmaxu_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26460,6 +26329,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26470,7 +26340,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26550,8 +26420,8 @@ ss << "vredmaxu_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vredmax_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredmax_vs",
-	(uint32_t) 0x1c002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x1c002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26560,6 +26430,7 @@ static InstructionDefinition vredmax_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26573,6 +26444,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26583,7 +26455,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26663,8 +26535,8 @@ ss << "vredmax_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vredminu_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredminu_vs",
-	(uint32_t) 0x10002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x10002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26673,6 +26545,7 @@ static InstructionDefinition vredminu_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26686,6 +26559,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26696,7 +26570,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26776,8 +26650,8 @@ ss << "vredminu_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vredmin_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredmin_vs",
-	(uint32_t) 0x14002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x14002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26786,6 +26660,7 @@ static InstructionDefinition vredmin_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26799,6 +26674,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26809,7 +26685,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -26889,8 +26765,8 @@ ss << "vredmin_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vredand_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredand_vs",
-	(uint32_t) 0x4002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x4002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -26899,6 +26775,7 @@ static InstructionDefinition vredand_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -26912,6 +26789,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -26922,7 +26800,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27002,8 +26880,8 @@ ss << "vredand_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vredor_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredor_vs",
-	(uint32_t) 0x8002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x8002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27012,6 +26890,7 @@ static InstructionDefinition vredor_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27025,6 +26904,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27035,7 +26915,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27115,8 +26995,8 @@ ss << "vredor_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vredxor_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vredxor_vs",
-	(uint32_t) 0xc002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27125,6 +27005,7 @@ static InstructionDefinition vredxor_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27138,6 +27019,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27148,7 +27030,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27228,8 +27110,8 @@ ss << "vredxor_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" +
 static InstructionDefinition vwredsumu_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwredsumu_vs",
-	(uint32_t) 0xc0000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc0000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27238,6 +27120,7 @@ static InstructionDefinition vwredsumu_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27251,6 +27134,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27261,7 +27145,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27341,8 +27225,8 @@ ss << "vwredsumu_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1="
 static InstructionDefinition vwredsum_vs_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vwredsum_vs",
-	(uint32_t) 0xc4000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0xc4000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27351,6 +27235,7 @@ static InstructionDefinition vwredsum_vs_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27364,6 +27249,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27374,7 +27260,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27454,8 +27340,8 @@ ss << "vwredsum_vs" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vmand_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmand_mm",
-	(uint32_t) 0x64002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x64002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27464,6 +27350,7 @@ static InstructionDefinition vmand_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27477,6 +27364,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27487,7 +27375,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27567,8 +27455,8 @@ ss << "vmand_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmnand_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmnand_mm",
-	(uint32_t) 0x74002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x74002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27577,6 +27465,7 @@ static InstructionDefinition vmnand_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27590,6 +27479,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27600,7 +27490,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27680,8 +27570,8 @@ ss << "vmnand_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vmandn_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmandn_mm",
-	(uint32_t) 0x60002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x60002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27690,6 +27580,7 @@ static InstructionDefinition vmandn_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27703,6 +27594,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27713,7 +27605,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27793,8 +27685,8 @@ ss << "vmandn_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vmxor_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmxor_mm",
-	(uint32_t) 0x6c002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x6c002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27803,6 +27695,7 @@ static InstructionDefinition vmxor_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27816,6 +27709,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27826,7 +27720,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -27906,8 +27800,8 @@ ss << "vmxor_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmor_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmor_mm",
-	(uint32_t) 0x68002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x68002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -27916,6 +27810,7 @@ static InstructionDefinition vmor_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -27929,6 +27824,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -27939,7 +27835,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28019,8 +27915,8 @@ ss << "vmor_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + st
 static InstructionDefinition vmnor_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmnor_mm",
-	(uint32_t) 0x78002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x78002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28029,6 +27925,7 @@ static InstructionDefinition vmnor_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28042,6 +27939,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28052,7 +27950,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28132,8 +28030,8 @@ ss << "vmnor_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmorn_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmorn_mm",
-	(uint32_t) 0x70002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x70002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28142,6 +28040,7 @@ static InstructionDefinition vmorn_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28155,6 +28054,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28165,7 +28065,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28245,8 +28145,8 @@ ss << "vmorn_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + s
 static InstructionDefinition vmxnor_mm_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmxnor_mm",
-	(uint32_t) 0x7c002057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x7c002057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28255,6 +28155,7 @@ static InstructionDefinition vmxnor_mm_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28268,6 +28169,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28278,7 +28180,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28358,8 +28260,8 @@ ss << "vmxnor_mm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" + 
 static InstructionDefinition vcpop_m_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vcpop_m",
-	(uint32_t) 0x40082057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x40082057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28368,6 +28270,7 @@ static InstructionDefinition vcpop_m_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28378,6 +28281,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28388,7 +28292,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28465,8 +28369,8 @@ ss << "vcpop_m" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + st
 static InstructionDefinition vfirst_m_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vfirst_m",
-	(uint32_t) 0x4008a057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x4008a057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28475,6 +28379,7 @@ static InstructionDefinition vfirst_m_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28485,6 +28390,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28495,7 +28401,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28572,8 +28478,8 @@ ss << "vfirst_m" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + s
 static InstructionDefinition vmsbf_m_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsbf_m",
-	(uint32_t) 0x5000a057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x5000a057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28582,6 +28488,7 @@ static InstructionDefinition vmsbf_m_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28592,6 +28499,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28602,7 +28510,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28679,8 +28587,8 @@ ss << "vmsbf_m" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + st
 static InstructionDefinition vmsif_m_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsif_m",
-	(uint32_t) 0x5001a057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x5001a057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28689,6 +28597,7 @@ static InstructionDefinition vmsif_m_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28699,6 +28608,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28709,7 +28619,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28786,8 +28696,8 @@ ss << "vmsif_m" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + st
 static InstructionDefinition vmsof_m_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmsof_m",
-	(uint32_t) 0x50012057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x50012057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28796,6 +28706,7 @@ static InstructionDefinition vmsof_m_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28806,6 +28717,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28816,7 +28728,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -28893,8 +28805,8 @@ ss << "vmsof_m" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + st
 static InstructionDefinition viota_m_vd_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"viota_m",
-	(uint32_t) 0x50082057,
-	(uint32_t) 0xfc0ff07f,
+	(uint64_t) 0x50082057,
+	(uint64_t) 0xfc0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -28903,6 +28815,7 @@ static InstructionDefinition viota_m_vd_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -28913,6 +28826,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -28923,7 +28837,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29000,8 +28914,8 @@ ss << "viota_m" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs2=" + st
 static InstructionDefinition vid_v_vd_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vid_v",
-	(uint32_t) 0x5008a057,
-	(uint32_t) 0xfdfff07f,
+	(uint64_t) 0x5008a057,
+	(uint64_t) 0xfdfff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29010,6 +28924,7 @@ static InstructionDefinition vid_v_vd_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29017,6 +28932,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29027,7 +28943,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29101,8 +29017,8 @@ ss << "vid_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vm=" + std::
 static InstructionDefinition vmv_x_s_rd_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmv_x_s",
-	(uint32_t) 0x42002057,
-	(uint32_t) 0xfe0ff07f,
+	(uint64_t) 0x42002057,
+	(uint64_t) 0xfe0ff07f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29111,6 +29027,7 @@ static InstructionDefinition vmv_x_s_rd_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 rd = 0;
 static BitArrayRange R_rd_0(11, 7);
 rd += R_rd_0.read(ba) << 0;
@@ -29118,6 +29035,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29128,7 +29046,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29207,8 +29125,8 @@ ss << "vmv_x_s" << " # " << ba << (" [rd=" + std::to_string(rd) + " | vs2=" + st
 static InstructionDefinition vmv_s_x_vd_rs1 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmv_s_x",
-	(uint32_t) 0x42006057,
-	(uint32_t) 0xfff0707f,
+	(uint64_t) 0x42006057,
+	(uint64_t) 0xfff0707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29217,6 +29135,7 @@ static InstructionDefinition vmv_s_x_vd_rs1 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29224,6 +29143,7 @@ etiss_uint8 rs1 = 0;
 static BitArrayRange R_rs1_0(19, 15);
 rs1 += R_rs1_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29234,7 +29154,7 @@ rs1 += R_rs1_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29308,8 +29228,8 @@ ss << "vmv_s_x" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" + st
 static InstructionDefinition vslideup_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vslideup_vi",
-	(uint32_t) 0x38003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x38003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29318,6 +29238,7 @@ static InstructionDefinition vslideup_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29331,6 +29252,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29341,7 +29263,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29421,8 +29343,8 @@ ss << "vslideup_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=
 static InstructionDefinition vslideup_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vslideup_vx",
-	(uint32_t) 0x38004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x38004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29431,6 +29353,7 @@ static InstructionDefinition vslideup_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29444,6 +29367,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29454,7 +29378,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29534,8 +29458,8 @@ ss << "vslideup_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vslidedown_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vslidedown_vi",
-	(uint32_t) 0x3c003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x3c003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29544,6 +29468,7 @@ static InstructionDefinition vslidedown_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29557,6 +29482,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29567,7 +29493,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29647,8 +29573,8 @@ ss << "vslidedown_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm
 static InstructionDefinition vslidedown_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vslidedown_vx",
-	(uint32_t) 0x3c004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x3c004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29657,6 +29583,7 @@ static InstructionDefinition vslidedown_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29670,6 +29597,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29680,7 +29608,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29760,8 +29688,8 @@ ss << "vslidedown_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=
 static InstructionDefinition vslide1up_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vslide1up_vx",
-	(uint32_t) 0x38006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x38006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29770,6 +29698,7 @@ static InstructionDefinition vslide1up_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29783,6 +29712,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29793,7 +29723,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29873,8 +29803,8 @@ ss << "vslide1up_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1="
 static InstructionDefinition vslide1down_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vslide1down_vx",
-	(uint32_t) 0x3c006057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x3c006057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29883,6 +29813,7 @@ static InstructionDefinition vslide1down_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -29896,6 +29827,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -29906,7 +29838,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -29986,8 +29918,8 @@ ss << "vslide1down_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1
 static InstructionDefinition vrgather_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrgather_vv",
-	(uint32_t) 0x30000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x30000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -29996,6 +29928,7 @@ static InstructionDefinition vrgather_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -30009,6 +29942,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -30019,7 +29953,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -30099,8 +30033,8 @@ ss << "vrgather_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1=" 
 static InstructionDefinition vrgatherei16_vv_vd_vs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrgatherei16_vv",
-	(uint32_t) 0x38000057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x38000057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -30109,6 +30043,7 @@ static InstructionDefinition vrgatherei16_vv_vd_vs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -30122,6 +30057,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -30132,7 +30068,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -30212,8 +30148,8 @@ ss << "vrgatherei16_vv" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs
 static InstructionDefinition vrgather_vi_vd_simm5_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrgather_vi",
-	(uint32_t) 0x30003057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x30003057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -30222,6 +30158,7 @@ static InstructionDefinition vrgather_vi_vd_simm5_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -30235,6 +30172,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -30245,7 +30183,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -30325,8 +30263,8 @@ ss << "vrgather_vi" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=
 static InstructionDefinition vrgather_vx_vd_rs1_vs2_vm (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vrgather_vx",
-	(uint32_t) 0x30004057,
-	(uint32_t) 0xfc00707f,
+	(uint64_t) 0x30004057,
+	(uint64_t) 0xfc00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -30335,6 +30273,7 @@ static InstructionDefinition vrgather_vx_vd_rs1_vs2_vm (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -30348,6 +30287,7 @@ etiss_uint8 vm = 0;
 static BitArrayRange R_vm_0(25, 25);
 vm += R_vm_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -30358,7 +30298,7 @@ vm += R_vm_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -30438,8 +30378,8 @@ ss << "vrgather_vx" << " # " << ba << (" [vd=" + std::to_string(vd) + " | rs1=" 
 static InstructionDefinition vcompress_vm_vd_vs1_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vcompress_vm",
-	(uint32_t) 0x5e002057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x5e002057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -30448,6 +30388,7 @@ static InstructionDefinition vcompress_vm_vd_vs1_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -30458,6 +30399,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -30468,7 +30410,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -30545,8 +30487,8 @@ ss << "vcompress_vm" << " # " << ba << (" [vd=" + std::to_string(vd) + " | vs1="
 static InstructionDefinition vmvr_v_vd_simm5_vs2 (
 	ISA32_RV32IMACFDV_zvl1024b,
 	"vmvr_v",
-	(uint32_t) 0x9e003057,
-	(uint32_t) 0xfe00707f,
+	(uint64_t) 0x9e003057,
+	(uint64_t) 0xfe00707f,
 	[] (BitArray & ba,etiss::CodeSet & cs,InstructionContext & ic)
 	{
 
@@ -30555,6 +30497,7 @@ static InstructionDefinition vmvr_v_vd_simm5_vs2 (
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
+// NOLINTBEGIN(clang-diagnostic-unused-but-set-variable)
 etiss_uint8 vd = 0;
 static BitArrayRange R_vd_0(11, 7);
 vd += R_vd_0.read(ba) << 0;
@@ -30565,6 +30508,7 @@ etiss_uint8 vs2 = 0;
 static BitArrayRange R_vs2_0(24, 20);
 vs2 += R_vs2_0.read(ba) << 0;
 
+// NOLINTEND(clang-diagnostic-unused-but-set-variable)
 // -----------------------------------------------------------------------------
 
 	{
@@ -30575,7 +30519,7 @@ vs2 += R_vs2_0.read(ba) << 0;
 // -----------------------------------------------------------------------------
 { // block
 cp.code() += "{ // block\n";
-cp.code() += "cpu->nextPc = " + std::to_string(ic.current_address_ + 4) + "ULL;\n";
+cp.code() += "cpu->nextPc = " + std::to_string((etiss_uint32)((ic.current_address_ + 4))) + "ULL;\n";
 cp.code() += "} // block\n";
 } // block
 { // block
@@ -30647,3 +30591,4 @@ ss << "vmvr_v" << " # " << ba << (" [vd=" + std::to_string(vd) + " | simm5=" + s
 		return ss.str();
 	}
 );
+// clang-format on

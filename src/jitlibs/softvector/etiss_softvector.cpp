@@ -28,6 +28,7 @@
 
 #include "etiss/jit/CPU.h"
 #include "etiss/jit/System.h"
+#include <cstdio>
 
 #include "libsoftvector.h"
 extern "C"
@@ -523,6 +524,83 @@ extern "C"
         { (*(pSystem->dwrite))(pSystem->handle, pCpu, addr, buff, len); };
 
         VLSU::store_eew(f_writeMem, VectorRegField, pNF, 1, 1, evl, pVLEN / 8, pVs3, pMSTART, pVSTART, pVm, 1);
+
+        return (0);
+    }
+
+    uint32_t tile_reg_idx(uint32_t i, uint32_t LMUL, uint8_t lambda, uint32_t elems_per_reg){
+        uint32_t linesize = lambda * LMUL;
+        uint32_t line = i / linesize;
+        uint32_t elem_in_line = i % linesize;
+        uint32_t regoff = elem_in_line / lambda;
+        uint32_t elementoff = line * lambda + elem_in_line % lambda;
+        return regoff * elems_per_reg + elementoff;
+    }
+
+    uint8_t etiss_vmtl_v(ETISS_CPU *const pCpu, ETISS_System *const pSystem, void *const *const plugin_pointers,
+                            uint8_t *pV, uint32_t const vtype, uint8_t pVm, uint16_t const vd, uint8_t const Llambda,
+                            uint32_t const ld, uint32_t vstart, uint32_t const vlen, uint32_t const vl, uint64_t pMSTART)
+    {
+        // same concerns about using the VLSU as in softmatrix.cpp. See there for details.
+        VTYPE::VTYPE _vt(vtype);
+        auto const effective_lambda = Llambda == 0 ? _vt._lambda : 1U << ((Llambda & 0b111) - 1);
+        auto const linesize = _vt._z_lmul * effective_lambda;
+        
+        auto const effective_ld = ld == 0 ? linesize : ld;
+        auto const elems_per_reg = vlen / _vt._sew;
+        
+        if (effective_lambda == 0) return (1);
+        if (vl % linesize != 0) return (1);
+        uint8_t *VectorRegField = pV;
+
+        std::function<void(std::size_t, uint8_t *, std::size_t)> f_readMem =
+            [pSystem, pCpu, _vt, linesize, effective_ld, vlen, pMSTART](std::size_t addr, uint8_t *buff, std::size_t len)
+        {
+            (void *) buff;
+            const auto base_addr = (_vt._sew / 8) * ((addr / linesize) * effective_ld + addr % linesize);
+            //printf("Writing from 0x%x to 0x%x\n", base_addr, buff);
+            (*(pSystem->dread))(pSystem->handle, pCpu, pMSTART + base_addr, buff, len);
+        };
+        std::function<size_t(size_t)> f_indexcalc = [_vt, effective_lambda, elems_per_reg](size_t index)
+        {
+            return tile_reg_idx(index, _vt._z_lmul, effective_lambda, elems_per_reg);
+        };
+
+        VLSU::load_eew_indexcalc(f_readMem, f_indexcalc, VectorRegField, _vt._z_lmul, 1, _vt._sew / 8, vl, vlen / 8, vd, 0, vstart, pVm, 1);
+
+        return (0);
+    }
+
+    uint8_t etiss_vmts_v(ETISS_CPU *const pCpu, ETISS_System *const pSystem, void *const *const plugin_pointers,
+                                   uint8_t *pV, uint32_t const vtype, uint8_t pVm, uint16_t const vs, uint8_t const Llambda,
+                                uint32_t const ld, uint32_t vstart, uint32_t const vlen, uint32_t const vl, uint64_t pMSTART)
+    {
+        VTYPE::VTYPE _vt(vtype);
+        auto const effective_lambda = Llambda == 0 ? _vt._lambda : 1U << ((Llambda & 0b111) - 1);
+        auto const linesize = _vt._z_lmul * effective_lambda;
+        
+        auto const effective_ld = ld == 0 ? linesize : ld;
+        auto const elems_per_reg = vlen / _vt._sew;
+        
+        if (effective_lambda == 0) return (1);
+        if (vl % linesize != 0) return (1);
+
+
+        uint8_t *VectorRegField = pV;
+
+        std::function<void(std::size_t, uint8_t *, std::size_t)> f_writeMem =
+            [pSystem, pCpu, _vt, linesize, effective_ld, vlen, pMSTART](std::size_t addr, uint8_t *buff, std::size_t len)
+        {
+            const auto base_addr = (_vt._sew / 8) * ((addr / linesize) * effective_ld + addr % linesize);
+            (*(pSystem->dwrite))(pSystem->handle, pCpu, pMSTART + base_addr, buff, len);
+        };
+        
+        std::function<size_t(size_t)> f_indexcalc = [_vt, effective_lambda, elems_per_reg](size_t index)
+        {
+            return tile_reg_idx(index, _vt._z_lmul, effective_lambda, elems_per_reg);
+        };
+
+        VLSU::store_eew_indexcalc(f_writeMem, f_indexcalc, VectorRegField, _vt._z_lmul, 1, _vt._sew / 8, vl, vlen / 8, vs, 0, vstart, pVm, 1);
 
         return (0);
     }

@@ -181,6 +181,27 @@ extern "C"
         void *const *const plugin_pointers, //!>[inout] Pointers to ETISS plugins. Unused
         uint8_t *pV,                        //!<[inout] Vector register field as local memory
         uint16_t pVTYPE, uint8_t pVm, uint8_t pNF, uint8_t pVs3, uint16_t pVSTART, uint16_t pVLEN, uint64_t pMSTART);
+    
+        
+        
+        
+        
+        
+        
+    /////////////////////////////////////////////////////////////////////////////////////
+    /// \brief Load a IME matrix from memory
+    /// \return 0 if no exception triggered, else 1
+    uint8_t etiss_vmtl_v(ETISS_CPU *const pCpu, ETISS_System *const pSystem, void *const *const plugin_pointers,
+                            uint8_t *pV, uint32_t const vtype, uint8_t pVm, uint16_t const vd, uint8_t const Llambda,
+                            uint32_t const ld, uint32_t vstart, uint32_t const vlen, uint32_t const vl, uint64_t pMSTART);
+    
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    /// \brief Store a IME matrix to memory
+    /// \return 0 if no exception triggered, else 1
+    uint8_t etiss_vmts_v(ETISS_CPU *const pCpu, ETISS_System *const pSystem, void *const *const plugin_pointers,
+                                   uint8_t *pV, uint32_t const vtype, uint8_t pVm, uint16_t const vs, uint8_t const Llambda,
+                                uint32_t const ld, uint32_t vstart, uint32_t const vlen, uint32_t const vl, uint64_t pMSTART);
 
 #ifdef __cplusplus
 } // extern "C"
